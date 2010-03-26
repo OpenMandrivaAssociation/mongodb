@@ -40,7 +40,7 @@ This package provides the mongo server software, mongo sharding server
 softwware, default configuration files, and init.d scripts.
 
 %package devel
-Summary: Headers and libraries for mongo development. 
+Summary: Headers and libraries for mongo development
 Group: Databases
 
 %description devel
