@@ -12,8 +12,12 @@ Group: Databases
 
 Source0: http://downloads.mongodb.org/src/%{name}-src-r%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
-BuildRequires: js-devel, readline-devel, boost-devel, pcre-devel
-BuildRequires: gcc-c++, scons
+BuildRequires: js-devel
+BuildRequires: readline-devel
+BuildRequires: boost-devel
+BuildRequires: pcre-devel
+BuildRequires: pcap-devel
+BuildRequires: scons
 
 %description
 Mongo (from "huMONGOus") is a schema-free document-oriented database.
