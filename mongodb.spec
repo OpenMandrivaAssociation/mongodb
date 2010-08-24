@@ -1,6 +1,6 @@
 %define name    mongodb
-%define version 1.4.4
-%define release %mkrel 3
+%define version 1.6.1
+%define release %mkrel 1
 
 Name:    %{name}
 Version: %{version}
@@ -39,20 +39,12 @@ Mongo (from "huMONGOus") is a schema-free document-oriented database.
 This package provides the mongo server software, mongo sharding server
 softwware, default configuration files, and init.d scripts.
 
-%package devel
-Summary: Headers and libraries for mongo development
-Group: Databases
-
-%description devel
-Mongo (from "huMONGOus") is a schema-free document-oriented database.
-
-This package provides the mongo static library and header files needed
-to develop mongo client software.
-
 %prep
 %setup -qn %{name}-src-r%{version}
 
 %build
+export CPPFLAGS="%optflags -I. -I/usr/include/js-1.70"
+export LINKFLAGS='%ldflags'
 %scons
 
 %install
@@ -101,7 +93,7 @@ rm -rf %{buildroot}
 %{_bindir}/mongorestore
 %{_bindir}/mongostat
 %{_bindir}/mongosniff
-
+%{_bindir}/bsondump
 %{_mandir}/man1/mongo.1*
 %{_mandir}/man1/mongodump.1*
 %{_mandir}/man1/mongoexport.1*
@@ -123,8 +115,3 @@ rm -rf %{buildroot}
 %attr(0755,mongod,mongod) %dir %{_var}/lib/mongo
 %attr(0755,mongod,mongod) %dir %{_var}/log/mongo
 %attr(0640,mongod,mongod) %config(noreplace) %verify(not md5 size mtime) %{_var}/log/mongo/mongod.log
-
-%files devel
-%defattr(-, root, root)
-%{_includedir}/mongo
-%{_libdir}/libmongoclient.a
