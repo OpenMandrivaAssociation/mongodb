@@ -43,7 +43,7 @@ softwware, default configuration files, and init.d scripts.
 %setup -qn %{name}-src-r%{version}
 
 %build
-export CPPFLAGS="%optflags -I. -I/usr/include/js-1.70"
+export CPPFLAGS="%optflags"
 export LINKFLAGS='%ldflags'
 %scons
 
