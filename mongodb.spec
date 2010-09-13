@@ -68,7 +68,6 @@ touch $RPM_BUILD_ROOT%{_var}/log/mongo/mongod.log
 rm -rf %{buildroot}
 
 %pre server
-%_pre_groupadd mongod
 %_pre_useradd mongod /var/lib/mongo /bin/false
 
 %post server
@@ -79,7 +78,6 @@ rm -rf %{buildroot}
 
 %postun server
 %_postun_userdel mongod
-%_postun_groupdel mongod
 
 %files
 %defattr(-,root,root,-)
