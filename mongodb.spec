@@ -77,7 +77,7 @@ rm -rf %{buildroot}
 %preun server
 %_preun_service mongod
 
-%postun
+%postun server
 %_postun_userdel mongod
 %_postun_groupdel mongod
 
