@@ -1,5 +1,5 @@
 %define name    mongodb
-%define version 1.6.3
+%define version 1.6.5
 %define release %mkrel 1
 
 Name:    %{name}
@@ -11,6 +11,7 @@ URL: http://www.mongodb.org
 Group: Databases
 
 Source0: http://downloads.mongodb.org/src/%{name}-src-r%{version}.tar.gz
+Patch0: mongodb-1.6.0-fix-scons.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires: js-devel
 BuildRequires: readline-devel
@@ -41,14 +42,17 @@ softwware, default configuration files, and init.d scripts.
 
 %prep
 %setup -qn %{name}-src-r%{version}
+%patch0 -p1
 
 %build
-export CPPFLAGS="%optflags"
+%serverbuild
 export LINKFLAGS='%ldflags'
 %scons
 
 %install
 rm -rf %{buildroot}
+%serverbuild
+export LINKFLAGS='%ldflags'
 
 %scons --prefix=$RPM_BUILD_ROOT%{_usr} install
 mkdir -p $RPM_BUILD_ROOT%{_mandir}/man1
