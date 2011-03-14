@@ -46,12 +46,14 @@ softwware, default configuration files, and init.d scripts.
 
 %build
 %serverbuild
+export CXXFLAGS="%optflags -DBOOST_FILESYSTEM_VERSION=2"
 export LINKFLAGS='%ldflags'
-%scons
+%scons --prefix=%{_prefix}
 
 %install
 rm -rf %{buildroot}
 %serverbuild
+export CXXFLAGS="%optflags -DBOOST_FILESYSTEM_VERSION=2"
 export LINKFLAGS='%ldflags'
 
 %scons --prefix=$RPM_BUILD_ROOT%{_usr} install
