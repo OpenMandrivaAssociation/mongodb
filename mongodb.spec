@@ -1,19 +1,14 @@
-%define name    mongodb
-%define version 1.6.5
-%define release %mkrel 2
-
-Name:    %{name}
-Version: %{version}
-Release: %{release}
+Name:    mongodb
+Version: 1.8.0
+Release: 1
 Summary: MongoDB client shell and tools
 License: AGPL 3.0
 URL: http://www.mongodb.org
 Group: Databases
 
 Source0: http://downloads.mongodb.org/src/%{name}-src-r%{version}.tar.gz
-Patch0: mongodb-1.6.0-fix-scons.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
-BuildRequires: js-devel
+BuildRequires: mozjs-devel
 BuildRequires: readline-devel
 BuildRequires: boost-devel
 BuildRequires: pcre-devel
@@ -42,7 +37,6 @@ softwware, default configuration files, and init.d scripts.
 
 %prep
 %setup -qn %{name}-src-r%{version}
-%patch0 -p1
 
 %build
 %serverbuild
