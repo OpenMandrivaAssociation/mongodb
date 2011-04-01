@@ -7,6 +7,7 @@ URL: http://www.mongodb.org
 Group: Databases
 
 Source0: http://downloads.mongodb.org/src/%{name}-src-r%{version}.tar.gz
+Patch1:		mongodb-1.8.0-spidermonkey-1.8.5-support.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires: mozjs-devel
 BuildRequires: readline-devel
@@ -37,6 +38,7 @@ softwware, default configuration files, and init.d scripts.
 
 %prep
 %setup -qn %{name}-src-r%{version}
+%patch0 -p1 -b .mozjs185~
 
 %build
 %serverbuild
