@@ -8,7 +8,7 @@ Group: Databases
 
 Source0: http://downloads.mongodb.org/src/%{name}-src-r%{version}.tar.gz
 Patch0:		mongodb-1.8.0-spidermonkey-1.8.5-support.patch
-
+Patch1:		mongodb-1.8.0-boost-1.46-support.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires: mozjs-devel
 BuildRequires: readline-devel
@@ -40,6 +40,7 @@ softwware, default configuration files, and init.d scripts.
 %prep
 %setup -qn %{name}-src-r%{version}
 %patch0 -p1 -b .mozjs185~
+%patch1 -p1 -b .boost_146~
 
 %build
 %serverbuild
