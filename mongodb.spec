@@ -1,21 +1,20 @@
-Name:    mongodb
-Version: 1.8.0
-Release: 1
-Summary: MongoDB client shell and tools
-License: AGPL 3.0
-URL: http://www.mongodb.org
-Group: Databases
+Name:		mongodb
+Version:	1.8.0
+Release:	1
+Summary:	MongoDB client shell and tools
+License:	AGPL 3.0
+URL:		http://www.mongodb.org
+Group:		Databases
 
-Source0: http://downloads.mongodb.org/src/%{name}-src-r%{version}.tar.gz
+Source0:	http://downloads.mongodb.org/src/%{name}-src-r%{version}.tar.gz
 Patch0:		mongodb-1.8.0-spidermonkey-1.8.5-support.patch
 Patch1:		mongodb-1.8.0-boost-1.46-support.patch
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
-BuildRequires: mozjs-devel
-BuildRequires: readline-devel
-BuildRequires: boost-devel
-BuildRequires: pcre-devel
-BuildRequires: pcap-devel
-BuildRequires: scons
+BuildRequires:	mozjs-devel
+BuildRequires:	readline-devel
+BuildRequires:	boost-devel
+BuildRequires:	pcre-devel
+BuildRequires:	pcap-devel
+BuildRequires:	scons
 
 %description
 Mongo (from "huMONGOus") is a schema-free document-oriented database.
@@ -26,12 +25,12 @@ and auto-sharding.
 This package provides the mongo shell, import/export tools, and other
 client utilities.
 
-%package server
-Summary: MongoDB server, sharding server, and support scripts
-Group: Databases
-Requires: mongodb
+%package	server
+Summary:	MongoDB server, sharding server, and support scripts
+Group:		Databases
+Requires:	mongodb
 
-%description server
+%description	server
 Mongo (from "huMONGOus") is a schema-free document-oriented database.
 
 This package provides the mongo server software, mongo sharding server
@@ -49,7 +48,6 @@ export LINKFLAGS='%ldflags'
 %scons --prefix=%{_prefix}
 
 %install
-rm -rf %{buildroot}
 %serverbuild
 export CXXFLAGS="%optflags -DBOOST_FILESYSTEM_VERSION=2"
 export LINKFLAGS='%ldflags'
@@ -68,9 +66,6 @@ mkdir -p $RPM_BUILD_ROOT%{_var}/lib/mongo
 mkdir -p $RPM_BUILD_ROOT%{_var}/log/mongo
 touch $RPM_BUILD_ROOT%{_var}/log/mongo/mongod.log
 
-%clean
-rm -rf %{buildroot}
-
 %pre server
 %_pre_useradd mongod /var/lib/mongo /bin/false
 
@@ -84,7 +79,6 @@ rm -rf %{buildroot}
 %_postun_userdel mongod
 
 %files
-%defattr(-,root,root,-)
 %doc README GNU-AGPL-3.0.txt
 
 %{_bindir}/mongo
@@ -106,7 +100,6 @@ rm -rf %{buildroot}
 %{_mandir}/man1/mongorestore.1*
 
 %files server
-%defattr(-,root,root)
 %config(noreplace) %{_sysconfdir}/mongod.conf
 %{_bindir}/mongod
 %{_bindir}/mongos
