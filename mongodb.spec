@@ -42,7 +42,7 @@ softwware, default configuration files, and init.d scripts.
 %setup -qn %{name}-src-r%{version}
 %patch0 -p1 -b .mozjs185~
 %patch1 -p1 -b .boost_146~
-%patch2 -p0 -b .cflags~
+#patch2 -p0 -b .cflags~
 
 %build
 %serverbuild
