@@ -16,6 +16,7 @@ BuildRequires:	boost-devel
 BuildRequires:	pcre-devel
 BuildRequires:	pcap-devel
 BuildRequires:	scons
+BuildRequires:	nspr-devel
 
 %description
 Mongo (from "huMONGOus") is a schema-free document-oriented database.
