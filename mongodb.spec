@@ -42,18 +42,18 @@ softwware, default configuration files, and init.d scripts.
 %setup -qn %{name}-src-r%{version}
 %patch0 -p1 -b .mozjs185~
 %patch1 -p1 -b .boost_146~
-#patch2 -p0 -b .cflags~
+%patch2 -p0 -b .cflags~
 
 %build
 %serverbuild
-export CXXFLAGS="%optflags -DBOOST_FILESYSTEM_VERSION=2 -O3"
+export CXXFLAGS="%optflags -O3"
 export CPPFLAGS="-I/usr/include/nspr4"
 export LINKFLAGS='%ldflags'
 %scons --prefix=%{_prefix}
 
 %install
 %serverbuild
-export CXXFLAGS="%optflags -DBOOST_FILESYSTEM_VERSION=2 -O3"
+export CXXFLAGS="%optflags -O3"
 export CPPFLAGS="-I/usr/include/nspr4"
 export LINKFLAGS='%ldflags'
 
