@@ -47,13 +47,16 @@ softwware, default configuration files, and init.d scripts.
 %build
 %serverbuild
 export CXXFLAGS="%optflags -DBOOST_FILESYSTEM_VERSION=2 -O3"
+export CPPFLAGS="-I/usr/include/nspr4"
 export LINKFLAGS='%ldflags'
 %scons --prefix=%{_prefix}
 
 %install
 %serverbuild
 export CXXFLAGS="%optflags -DBOOST_FILESYSTEM_VERSION=2 -O3"
+export CPPFLAGS="-I/usr/include/nspr4"
 export LINKFLAGS='%ldflags'
+
 
 %scons --prefix=$RPM_BUILD_ROOT%{_usr} install
 mkdir -p $RPM_BUILD_ROOT%{_mandir}/man1
