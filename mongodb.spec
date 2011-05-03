@@ -46,14 +46,14 @@ softwware, default configuration files, and init.d scripts.
 
 %build
 %serverbuild
-export CXXFLAGS="%optflags -O3 -DBOOST_FILESYSTEM_VERSION=2"
+export CXXFLAGS="%optflags -O3"
 export CPPFLAGS="`pkg-config --cflags mozjs185`"
 export LINKFLAGS='%ldflags'
 %scons --prefix=%{_prefix}
 
 %install
 %serverbuild
-export CXXFLAGS="%optflags -O3 -DBOOST_FILESYSTEM_VERSION=2"
+export CXXFLAGS="%optflags -O3"
 export CPPFLAGS="`pkg-config --cflags mozjs185`"
 export LINKFLAGS='%ldflags'
 
