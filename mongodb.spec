@@ -1,6 +1,6 @@
 Name:		mongodb
 Version:	1.8.1
-Release:	1
+Release:	2
 Summary:	MongoDB client shell and tools
 License:	AGPL 3.0
 URL:		http://www.mongodb.org
@@ -41,6 +41,7 @@ softwware, default configuration files, and init.d scripts.
 %prep
 %setup -qn %{name}-src-r%{version}
 %patch0 -p1 -b .mozjs185~
+%patch1 -p1 -b .boost_146~
 %patch2 -p0 -b .cflags~
 
 %build
