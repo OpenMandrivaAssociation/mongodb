@@ -8,6 +8,7 @@ Group:		Databases
 
 Source0:	http://downloads.mongodb.org/src/%{name}-src-r%{version}.tar.gz
 Patch0:		mongodb-1.8.0-spidermonkey-1.8.5-support.patch
+Patch1:		mongodb-1.8.1-boost-1.46-support.patch
 Patch2:		mongodb-1.8.0-compile-flags.patch
 BuildRequires:	mozjs-devel
 BuildRequires:	readline-devel
@@ -45,14 +46,14 @@ softwware, default configuration files, and init.d scripts.
 %build
 %serverbuild
 export CXXFLAGS="%optflags -O3 -DBOOST_FILESYSTEM_VERSION=2"
-export CPPFLAGS="-I/usr/include/nspr4"
+export CPPFLAGS="`pkg-config --cflags mozjs185`"
 export LINKFLAGS='%ldflags'
 %scons --prefix=%{_prefix}
 
 %install
 %serverbuild
 export CXXFLAGS="%optflags -O3 -DBOOST_FILESYSTEM_VERSION=2"
-export CPPFLAGS="-I/usr/include/nspr4"
+export CPPFLAGS="`pkg-config --cflags mozjs185`"
 export LINKFLAGS='%ldflags'
 
 
