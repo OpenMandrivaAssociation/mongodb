@@ -1,6 +1,6 @@
 Name:		mongodb
 Version:	1.8.1
-Release:	2
+Release:	3
 Summary:	MongoDB client shell and tools
 License:	AGPL 3.0
 URL:		http://www.mongodb.org
