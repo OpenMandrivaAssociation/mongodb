@@ -1,6 +1,6 @@
 Name:		mongodb
-Version:	1.8.1
-Release:	3
+Version:	2.0.3
+Release:	1
 Summary:	MongoDB client shell and tools
 License:	AGPL 3.0
 URL:		http://www.mongodb.org
@@ -40,9 +40,9 @@ softwware, default configuration files, and init.d scripts.
 
 %prep
 %setup -qn %{name}-src-r%{version}
-%patch0 -p1 -b .mozjs185~
-%patch1 -p1 -b .boost_146~
-%patch2 -p0 -b .cflags~
+#%patch0 -p1 -b .mozjs185~
+#%patch1 -p1 -b .boost_146~
+#%patch2 -p0 -b .cflags~
 
 %build
 %serverbuild
@@ -88,6 +88,7 @@ touch $RPM_BUILD_ROOT%{_var}/log/mongo/mongod.log
 %doc README GNU-AGPL-3.0.txt
 
 %{_bindir}/mongo
+%{_bindir}/mongotop
 %{_bindir}/mongodump
 %{_bindir}/mongoexport
 %{_bindir}/mongofiles
@@ -104,6 +105,7 @@ touch $RPM_BUILD_ROOT%{_var}/log/mongo/mongod.log
 %{_mandir}/man1/mongosniff.1*
 %{_mandir}/man1/mongostat.1*
 %{_mandir}/man1/mongorestore.1*
+%{_mandir}/man1/bsondump.1.*
 
 %files server
 %config(noreplace) %{_sysconfdir}/mongod.conf
