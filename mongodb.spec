@@ -1,5 +1,5 @@
 Name:		mongodb
-Version:	2.0.5
+Version:	2.0.6
 Release:	1
 Summary:	MongoDB client shell and tools
 License:	AGPL 3.0
