@@ -1,3 +1,4 @@
+---
 sources:
-  "mongodb-src-r2.2.0.tar.gz:"	bdf414c3a71386f1bf7b6df8da72400abe434ebe
-  "mongod.service:"	cdc0b9162f1f044c632509f70f22778266ac415d
+  mongodb-src-r2.2.1.tar.gz: 0e2e042b6adf813733894b02ea8610e91ffa484f
+  mongodb-src-r2.2.2.tar.gz: 64f96c4149cb79fbbad62c9b374f659cb46575b2

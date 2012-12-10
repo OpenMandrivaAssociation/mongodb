@@ -1,0 +1,13 @@
+[Unit]
+Description=High-performance, schema-free document-oriented database
+After=syslog.target network.target
+
+[Service]
+Type=forking
+User=mongod
+PIDFile=/var/run/mongo/mongo.pid
+EnvironmentFile=/etc/sysconfig/mongod
+ExecStart=/usr/bin/mongod $OPTIONS --pidfilepath /var/run/mongo/mongo.pid run
+
+[Install]
+WantedBy=multi-user.target

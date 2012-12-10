@@ -1,5 +1,6 @@
+%define debug_package %nil
 %define name    mongodb
-%define version 2.2.0
+%define version 2.2.2
 %define release %mkrel 1
 
 Name:    %{name}
@@ -15,7 +16,7 @@ Patch0: boost-1.50.patch
 BuildRequires: js-devel
 BuildRequires: readline-devel
 BuildRequires: boost-devel
-BuildRequires: pcre-devel
+BuildRequires: pkgconfig(libpcre)
 BuildRequires: pcap-devel
 BuildRequires: scons
 
@@ -62,7 +63,6 @@ export LINKFLAGS='%ldflags'
 %scons --prefix=%{_prefix}
 
 %install
-rm -rf %{buildroot}
 %serverbuild
 export CXXFLAGS="%optflags"
 export LINKFLAGS='%ldflags'
