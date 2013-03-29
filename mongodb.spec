@@ -1,11 +1,8 @@
 %define debug_package %nil
-%define name    mongodb
-%define version 2.2.2
-%define release %mkrel 1
 
-Name:    %{name}
-Version: %{version}
-Release: %{release}
+Name:    mongodb
+Version: 2.4.1
+Release: 1
 Summary: MongoDB client shell and tools
 License: AGPL 3.0
 URL: http://www.mongodb.org
