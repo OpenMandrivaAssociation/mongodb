@@ -131,6 +131,9 @@ chown mongod.mongod %{_var}/run/mongo
 %{_mandir}/man1/mongostat.1*
 %{_mandir}/man1/mongorestore.1*
 %{_mandir}/man1/bsondump.1*
+%{_mandir}/man1/mongooplog.1.*
+%{_mandir}/man1/mongoperf.1.*
+%{_mandir}/man1/mongotop.1.*
 
 %files server
 %config(noreplace) %{_sysconfdir}/mongod.conf
