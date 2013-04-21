@@ -1,7 +1,7 @@
-%define debug_package %nil
+#% define debug_package %nil
 
 Name:    mongodb
-Version: 2.4.1
+Version: 2.4.2
 Release: 1
 Summary: MongoDB client shell and tools
 License: AGPL 3.0
@@ -13,6 +13,7 @@ Patch0: boost-1.50.patch
 BuildRequires: js-devel
 BuildRequires: readline-devel
 BuildRequires: boost-devel
+BuildRequires: pcre-devel
 BuildRequires: pkgconfig(libpcre)
 BuildRequires: pcap-devel
 BuildRequires: scons
@@ -57,7 +58,7 @@ This package provides the devel files for %{name}.
 %serverbuild
 export CXXFLAGS="%optflags"
 export LINKFLAGS='%ldflags'
-%scons --prefix=%{_prefix}
+%scons --prefix=%{_prefix} --use-system-pcre --use-system-boost
 
 %install
 %serverbuild
