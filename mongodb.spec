@@ -1,7 +1,7 @@
 #% define debug_package %nil
 
 Name:    mongodb
-Version: 2.4.2
+Version: 2.4.5
 Release: 1
 Summary: MongoDB client shell and tools
 License: AGPL 3.0
