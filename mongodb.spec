@@ -1,7 +1,7 @@
-#% define debug_package %nil
+%define debug_package %nil
 
 Name:    mongodb
-Version: 2.4.5
+Version: 2.6.4
 Release: 1
 Summary: MongoDB client shell and tools
 License: AGPL 3.0
@@ -9,7 +9,6 @@ URL: http://www.mongodb.org
 Group: Databases
 Source0: http://downloads.mongodb.org/src/%{name}-src-r%{version}.tar.gz
 Source1: mongod.service
-Patch0: boost-1.50.patch
 BuildRequires: js-devel
 BuildRequires: readline-devel
 BuildRequires: boost-devel
@@ -42,17 +41,8 @@ This package provides the mongo server software, mongo sharding server
 softwware, default configuration files, and init.d scripts.
 
 
-%package devel
-Summary: MongoDB server, sharding server, and support scripts
-Group: Databases
-Requires: mongodb
-
-%description devel
-This package provides the devel files for %{name}.
-
 %prep
-%setup -qn %{name}-src-r%{version}
-#% patch0 -p1
+%setup -qn mongo-r%{version}
 
 %build
 %serverbuild
@@ -150,5 +140,3 @@ chown mongod.mongod %{_var}/run/mongo
 %attr(0755,mongod,mongod) %dir %{_var}/log/mongo
 %attr(0640,mongod,mongod) %config(noreplace) %verify(not md5 size mtime) %{_var}/log/mongo/mongod.log
 
-%files devel
-%{_includedir}/mongo/
