@@ -1,7 +1,7 @@
 %define debug_package %nil
 
 Name:    mongodb
-Version: 2.6.4
+Version: 2.6.7
 Release: 1
 Summary: MongoDB client shell and tools
 License: AGPL 3.0
@@ -14,6 +14,7 @@ BuildRequires: readline-devel
 BuildRequires: boost-devel
 BuildRequires: pcre-devel
 BuildRequires: pkgconfig(libpcre)
+BuildRequires: pkgconfig(yaml-cpp)
 BuildRequires: pcap-devel
 BuildRequires: scons
 
@@ -42,13 +43,14 @@ softwware, default configuration files, and init.d scripts.
 
 
 %prep
-%setup -qn mongo-r%{version}
+%setup -qn %{name}-src-r%{version}
+sed -i -e "s/\[\"yaml\"\]/\[\"yaml-cpp\"\]/" SConstruct
 
 %build
 %serverbuild
 export CXXFLAGS="%optflags"
 export LINKFLAGS='%ldflags'
-%scons --prefix=%{_prefix} --use-system-pcre --use-system-boost
+%scons --prefix=%{_prefix} --use-system-pcre --use-system-boost --use-system-yaml
 
 %install
 %serverbuild
