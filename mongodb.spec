@@ -2,7 +2,7 @@
 
 Name:    mongodb
 Version: 2.6.7
-Release: 1
+Release: 2
 Summary: MongoDB client shell and tools
 License: AGPL 3.0
 URL: http://www.mongodb.org
