@@ -1,13 +1,14 @@
 %define debug_package %nil
+%define oname mongo
 
 Name:    mongodb
-Version: 2.6.7
-Release: 2
+Version: 3.0.3
+Release: 1
 Summary: MongoDB client shell and tools
 License: AGPL 3.0
 URL: http://www.mongodb.org
 Group: Databases
-Source0: http://downloads.mongodb.org/src/%{name}-src-r%{version}.tar.gz
+Source0: http://downloads.mongodb.org/src/%{oname}-r%{version}.tar.gz
 Source1: mongod.service
 BuildRequires: js-devel
 BuildRequires: readline-devel
@@ -43,7 +44,7 @@ softwware, default configuration files, and init.d scripts.
 
 
 %prep
-%setup -qn %{name}-src-r%{version}
+%setup -qn %{oname}-r%{version}
 sed -i -e "s/\[\"yaml\"\]/\[\"yaml-cpp\"\]/" SConstruct
 
 %build
