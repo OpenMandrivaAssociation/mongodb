@@ -1,16 +1,14 @@
 %define debug_package %nil
-%define oname mongo
 
 Name:    mongodb
-Version: 3.0.3
+Version: 3.0.4
 Release: 1
 Summary: MongoDB client shell and tools
 License: AGPL 3.0
 URL: http://www.mongodb.org
 Group: Databases
-Source0: http://downloads.mongodb.org/src/%{oname}-r%{version}.tar.gz
+Source0: http://downloads.mongodb.org/src/%{name}-src-r%{version}.tar.gz
 Source1: mongod.service
-BuildRequires: js-devel
 BuildRequires: readline-devel
 BuildRequires: boost-devel
 BuildRequires: pcre-devel
@@ -44,21 +42,21 @@ softwware, default configuration files, and init.d scripts.
 
 
 %prep
-%setup -qn %{oname}-r%{version}
+%setup -qn %{name}-src-r%{version}
 sed -i -e "s/\[\"yaml\"\]/\[\"yaml-cpp\"\]/" SConstruct
 
 %build
 %serverbuild
 export CXXFLAGS="%optflags"
 export LINKFLAGS='%ldflags'
-%scons --prefix=%{_prefix} --use-system-pcre --use-system-boost --use-system-yaml
+%scons --prefix=%{_prefix} --use-system-pcre --use-system-boost --use-system-zlib --use-system-yaml
 
 %install
 %serverbuild
 export CXXFLAGS="%optflags"
 export LINKFLAGS='%ldflags'
 
-%scons --prefix=%{buildroot}%{_usr} install
+%scons --prefix=%{buildroot}%{_usr} --use-system-pcre --use-system-boost --use-system-zlib --use-system-yaml install
 mkdir -p %{buildroot}%{_mandir}/man1
 cp debian/*.1 %{buildroot}%{_mandir}/man1/
 mkdir -p %{buildroot}%{_unitdir}
@@ -105,17 +103,8 @@ chown mongod.mongod %{_var}/run/mongo
 %files
 %doc README GNU-AGPL-3.0.txt
 %{_bindir}/mongo
-%{_bindir}/mongodump
-%{_bindir}/mongooplog
 %{_bindir}/mongoperf
-%{_bindir}/mongoexport
-%{_bindir}/mongofiles
-%{_bindir}/mongoimport
-%{_bindir}/mongorestore
-%{_bindir}/mongostat
 %{_bindir}/mongosniff
-%{_bindir}/mongotop
-%{_bindir}/bsondump
 %{_mandir}/man1/mongo.1*
 %{_mandir}/man1/mongodump.1*
 %{_mandir}/man1/mongoexport.1*
