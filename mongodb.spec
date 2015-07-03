@@ -49,14 +49,15 @@ sed -i -e "s/\[\"yaml\"\]/\[\"yaml-cpp\"\]/" SConstruct
 %serverbuild
 export CXXFLAGS="%optflags"
 export LINKFLAGS='%ldflags'
-%scons --prefix=%{_prefix} --use-system-pcre --use-system-boost --use-system-zlib --use-system-yaml
+%scons --prefix=%{_prefix} --use-system-pcre --use-system-boost --use-system-zlib --use-system-yaml --disable-warnings-as-errors 
 
 %install
 %serverbuild
 export CXXFLAGS="%optflags"
 export LINKFLAGS='%ldflags'
 
-%scons --prefix=%{buildroot}%{_usr} --use-system-pcre --use-system-boost --use-system-zlib --use-system-yaml install
+%scons --prefix=%{buildroot}%{_usr} --use-system-pcre --use-system-boost --use-system-zlib --use-system-yaml --disable-warnings-as-errors install
+
 mkdir -p %{buildroot}%{_mandir}/man1
 cp debian/*.1 %{buildroot}%{_mandir}/man1/
 mkdir -p %{buildroot}%{_unitdir}
