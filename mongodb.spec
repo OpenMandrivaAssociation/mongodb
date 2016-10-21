@@ -16,6 +16,7 @@ BuildRequires: boost-devel
 BuildRequires: pcre-devel
 BuildRequires: libstemmer-devel
 BuildRequires: snappy-devel
+BuildRequires: pkgconfig(openssl)
 BuildRequires: pkgconfig(libpcre)
 BuildRequires: pkgconfig(yaml-cpp)
 BuildRequires: pcap-devel
