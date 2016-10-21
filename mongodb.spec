@@ -1,7 +1,7 @@
 %define debug_package %nil
 
 Name:    mongodb
-Version: 3.0.4
+Version: 3.2.10
 Release: 1
 Summary: MongoDB client shell and tools
 License: AGPL 3.0
@@ -9,9 +9,13 @@ URL: http://www.mongodb.org
 Group: Databases
 Source0: http://downloads.mongodb.org/src/%{name}-src-r%{version}.tar.gz
 Source1: mongod.service
+Patch0:  mongodb-3.2.4-boost-1.60.patch
+Patch1:	 system-libs.patch
 BuildRequires: readline-devel
 BuildRequires: boost-devel
 BuildRequires: pcre-devel
+BuildRequires: libstemmer-devel
+BuildRequires: snappy-devel
 BuildRequires: pkgconfig(libpcre)
 BuildRequires: pkgconfig(yaml-cpp)
 BuildRequires: pcap-devel
@@ -43,20 +47,45 @@ softwware, default configuration files, and init.d scripts.
 
 %prep
 %setup -qn %{name}-src-r%{version}
+%apply_patches
+# disable propagation of $TERM env var into the Scons build system
+sed -i -r "s|(for key in \('HOME'), 'TERM'(\):)|\1\2|" SConstruct
 sed -i -e "s/\[\"yaml\"\]/\[\"yaml-cpp\"\]/" SConstruct
+# Use system versions of header files (bundled does not differ)
+sed -i -r "s|third_party/libstemmer_c/include/libstemmer.h|libstemmer/libstemmer.h|" src/mongo/db/fts/stemmer.h
+sed -i -r "s|third_party/yaml-cpp-0.5.1/include/yaml-cpp/yaml.h|yaml-cpp/yaml.h|" src/mongo/util/options_parser/options_parser.cpp
 
 %build
 %serverbuild
 export CXXFLAGS="%optflags"
 export LINKFLAGS='%ldflags'
-%scons --prefix=%{_prefix} --use-system-pcre --use-system-boost --use-system-zlib --use-system-yaml --disable-warnings-as-errors 
+export CC=%{__cc}
+export CXX=%{__cxx}
+%scons --prefix=%{_prefix} \
+	CC=%{__cc} CXX=%{__cxx} \
+	--use-system-pcre \
+	--use-system-boost \
+	--use-system-zlib \
+	--ssl \
+	--use-system-yaml \
+	--use-system-snappy \
+	--disable-warnings-as-errors 
 
 %install
 %serverbuild
 export CXXFLAGS="%optflags"
 export LINKFLAGS='%ldflags'
+export CC=%{__cc}
+export CXX=%{__cxx}
 
-%scons --prefix=%{buildroot}%{_usr} --use-system-pcre --use-system-boost --use-system-zlib --use-system-yaml --disable-warnings-as-errors install
+%scons --prefix=%{buildroot}%{_usr} \
+	--use-system-pcre \
+	CC=%{__cc} CXX=%{__cxx} \
+	--use-system-boost \
+	--use-system-zlib \
+	--use-system-yaml \
+	--use-system-snappy \
+	--disable-warnings-as-errors install
 
 mkdir -p %{buildroot}%{_mandir}/man1
 cp debian/*.1 %{buildroot}%{_mandir}/man1/
