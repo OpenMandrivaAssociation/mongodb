@@ -109,8 +109,8 @@ EOF
 
 # (cg) Ensure the pid file folder exists (this is more important under mga3
 # when /var/run will be on tmpfs)
-mkdir -p %{buildroot}%{_prefix}/lib/tmpfiles.d
-cat > %{buildroot}%{_prefix}/lib/tmpfiles.d/%{name}-server.conf << EOF
+mkdir -p %{buildroot}%{_tmpfilesdir}
+cat > %{buildroot}%{_tmpfilesdir}/%{name}-server.conf << EOF
 d %{_var}/run/mongo 0755 mongod mongod -
 EOF
 
@@ -146,7 +146,7 @@ rm -f %{buildroot}/usr/lib/libmongoclient.a
 %{_bindir}/mongos
 %{_mandir}/man1/mongod.1*
 %{_mandir}/man1/mongos.1*
-%{_prefix}/lib/tmpfiles.d/%{name}-server.conf
+%{_tmpfilesdir}/%{name}-server.conf
 %{_unitdir}/mongod.service
 %{_sysconfdir}/rc.d/init.d/mongod
 %{_sysconfdir}/sysconfig/mongod
