@@ -18,6 +18,7 @@ BuildRequires: pkgconfig(openssl)
 BuildRequires: pkgconfig(libpcre)
 BuildRequires: pkgconfig(yaml-cpp)
 BuildRequires: pkgconfig(mozjs185)
+BuildRequires: pkgconfig(libtcmalloc)
 BuildRequires: pcap-devel
 BuildRequires: scons
 BuildRequires: valgrind-devel
@@ -73,6 +74,7 @@ export CXX=%{__cxx}
 	--js-engine=mozjs \
 	--server-js=on \
 	--use-system-valgrind \
+	--use-system-tcmalloc \
 	--disable-warnings-as-errors 
 
 %install
@@ -93,6 +95,7 @@ export CXX=%{__cxx}
 	--js-engine=mozjs \
 	--server-js=on \
 	--use-system-valgrind \
+	--use-system-tcmalloc \
 	--disable-warnings-as-errors install
 
 mkdir -p %{buildroot}%{_mandir}/man1/
