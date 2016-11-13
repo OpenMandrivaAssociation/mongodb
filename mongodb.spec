@@ -148,5 +148,5 @@ rm -f %{buildroot}/usr/lib/libmongoclient.a
 %{_sysconfdir}/sysconfig/mongod
 %attr(0755,mongod,mongod) %dir %{_var}/lib/mongo
 %attr(0755,mongod,mongod) %dir %{_var}/log/mongodb
-%attr(0640,mongod,mongod) %config(noreplace) %verify(not md5 size mtime) %{_var}/log/mongodb/mongod.log
+%attr(0640,mongod,mongod) %verify(not md5 size mtime) %{_var}/log/mongodb/mongod.log
 
