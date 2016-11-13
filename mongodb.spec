@@ -116,7 +116,7 @@ EOF
 # when /var/run will be on tmpfs)
 mkdir -p %{buildroot}%{_tmpfilesdir}
 cat > %{buildroot}%{_tmpfilesdir}/%{name}-server.conf << EOF
-d %{_varrundir}/mongo 0755 mongod mongod -
+d %{_varrun}/mongo 0755 mongod mongod -
 EOF
 
 %pre server
