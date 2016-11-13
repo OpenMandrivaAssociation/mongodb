@@ -100,8 +100,8 @@ cp rpm/mongod.conf %{buildroot}%{_sysconfdir}/mongod.conf
 mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
 cp rpm/mongod.sysconfig %{buildroot}%{_sysconfdir}/sysconfig/mongod
 mkdir -p %{buildroot}%{_var}/lib/mongo
-mkdir -p %{buildroot}%{_var}/log/mongo
-touch %{buildroot}%{_var}/log/mongo/mongod.log
+mkdir -p %{buildroot}%{_var}/log/mongodb
+touch %{buildroot}%{_var}/log/mongodb/mongod.log
 
 cat >> %{buildroot}%{_sysconfdir}/sysconfig/mongod << EOF
 OPTIONS="-f /etc/mongod.conf"
@@ -109,8 +109,8 @@ EOF
 
 # (cg) Ensure the pid file folder exists (this is more important under mga3
 # when /var/run will be on tmpfs)
-mkdir -p %{buildroot}%{_prefix}/lib/tmpfiles.d
-cat > %{buildroot}%{_prefix}/lib/tmpfiles.d/%{name}-server.conf << EOF
+mkdir -p %{buildroot}%{_tmpfilesdir}
+cat > %{buildroot}%{_tmpfilesdir}/%{name}-server.conf << EOF
 d %{_var}/run/mongo 0755 mongod mongod -
 EOF
 
@@ -118,15 +118,6 @@ rm -f %{buildroot}/usr/lib/libmongoclient.a
 
 %pre server
 %_pre_useradd mongod /var/lib/mongo /bin/false
-
-%post server
-# (cg) Make sure the pid folder exists on install
-mkdir -p %{_var}/run/mongo
-chown mongod.mongod %{_var}/run/mongo
-%_post_service mongod
-
-%preun server
-%_preun_service mongod
 
 %postun server
 %_postun_userdel mongod
@@ -155,11 +146,11 @@ chown mongod.mongod %{_var}/run/mongo
 %{_bindir}/mongos
 %{_mandir}/man1/mongod.1*
 %{_mandir}/man1/mongos.1*
-%{_prefix}/lib/tmpfiles.d/%{name}-server.conf
+%{_tmpfilesdir}/%{name}-server.conf
 %{_unitdir}/mongod.service
 %{_sysconfdir}/rc.d/init.d/mongod
 %{_sysconfdir}/sysconfig/mongod
 %attr(0755,mongod,mongod) %dir %{_var}/lib/mongo
-%attr(0755,mongod,mongod) %dir %{_var}/log/mongo
-%attr(0640,mongod,mongod) %config(noreplace) %verify(not md5 size mtime) %{_var}/log/mongo/mongod.log
+%attr(0755,mongod,mongod) %dir %{_var}/log/mongodb
+%attr(0640,mongod,mongod) %config(noreplace) %verify(not md5 size mtime) %{_var}/log/mongodb/mongod.log
 
