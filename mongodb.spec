@@ -95,7 +95,6 @@ install -m644 rpm/mongod.conf -D %{buildroot}%{_sysconfdir}/mongod.conf
 install -m644 rpm/mongod.sysconfig -D %{buildroot}%{_sysconfdir}/sysconfig/mongod
 mkdir -p %{buildroot}%{_var}/lib/mongo
 mkdir -p %{buildroot}%{_var}/log/mongodb
-touch %{buildroot}%{_var}/log/mongodb/mongod.log
 
 cat >> %{buildroot}%{_sysconfdir}/sysconfig/mongod << EOF
 OPTIONS="-f /etc/mongod.conf"
@@ -142,6 +141,6 @@ EOF
 %{_unitdir}/mongod.service
 %{_sysconfdir}/sysconfig/mongod
 %attr(0755,mongod,mongod) %dir %{_var}/lib/mongo
-%attr(0755,mongod,mongod) %dir %{_var}/log/mongodb
-%attr(0640,mongod,mongod) %verify(not md5 size mtime) %{_var}/log/mongodb/mongod.log
+%attr(0750,mongod,mongod) %dir %{_var}/log/mongodb
+%attr(0640,mongod,mongod) %ghost %{_var}/log/mongodb/mongod.log
 
