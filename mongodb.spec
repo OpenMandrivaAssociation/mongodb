@@ -123,10 +123,6 @@ rm -f %{buildroot}/usr/lib/libmongoclient.a
 # (cg) Make sure the pid folder exists on install
 mkdir -p %{_var}/run/mongo
 chown mongod.mongod %{_var}/run/mongo
-%_post_service mongod
-
-%preun server
-%_preun_service mongod
 
 %postun server
 %_postun_userdel mongod
