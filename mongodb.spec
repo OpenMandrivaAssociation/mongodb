@@ -88,14 +88,11 @@ export CXX=%{__cxx}
 	--use-system-snappy \
 	--disable-warnings-as-errors install
 
-mkdir -p %{buildroot}%{_mandir}/man1
+mkdir -p %{buildroot}%{_mandir}/man1/
 cp debian/*.1 %{buildroot}%{_mandir}/man1/
-mkdir -p %{buildroot}%{_unitdir}
-cp %{SOURCE1} %{buildroot}%{_unitdir}/mongod.service
-mkdir -p %{buildroot}%{_sysconfdir}
-cp rpm/mongod.conf %{buildroot}%{_sysconfdir}/mongod.conf
-mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
-cp rpm/mongod.sysconfig %{buildroot}%{_sysconfdir}/sysconfig/mongod
+install -m644 %{SOURCE1} -D %{buildroot}%{_unitdir}/mongod.service
+install -m644 rpm/mongod.conf -D %{buildroot}%{_sysconfdir}/mongod.conf
+install -m644 rpm/mongod.sysconfig -D %{buildroot}%{_sysconfdir}/sysconfig/mongod
 mkdir -p %{buildroot}%{_var}/lib/mongo
 mkdir -p %{buildroot}%{_var}/log/mongodb
 touch %{buildroot}%{_var}/log/mongodb/mongod.log
@@ -111,10 +108,8 @@ cat > %{buildroot}%{_tmpfilesdir}/%{name}-server.conf << EOF
 d %{_var}/run/mongo 0755 mongod mongod -
 EOF
 
-rm -f %{buildroot}/usr/lib/libmongoclient.a
-
 %pre server
-%_pre_useradd mongod /var/lib/mongo /bin/false
+%_pre_useradd mongod /var/lib/mongo /bin/nologin
 
 %postun server
 %_postun_userdel mongod
