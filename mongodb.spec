@@ -100,8 +100,8 @@ cp rpm/mongod.conf %{buildroot}%{_sysconfdir}/mongod.conf
 mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
 cp rpm/mongod.sysconfig %{buildroot}%{_sysconfdir}/sysconfig/mongod
 mkdir -p %{buildroot}%{_var}/lib/mongo
-mkdir -p %{buildroot}%{_var}/log/mongo
-touch %{buildroot}%{_var}/log/mongo/mongod.log
+mkdir -p %{buildroot}%{_var}/log/mongodb
+touch %{buildroot}%{_var}/log/mongodb/mongod.log
 
 cat >> %{buildroot}%{_sysconfdir}/sysconfig/mongod << EOF
 OPTIONS="-f /etc/mongod.conf"
@@ -160,6 +160,6 @@ chown mongod.mongod %{_var}/run/mongo
 %{_sysconfdir}/rc.d/init.d/mongod
 %{_sysconfdir}/sysconfig/mongod
 %attr(0755,mongod,mongod) %dir %{_var}/lib/mongo
-%attr(0755,mongod,mongod) %dir %{_var}/log/mongo
-%attr(0640,mongod,mongod) %config(noreplace) %verify(not md5 size mtime) %{_var}/log/mongo/mongod.log
+%attr(0755,mongod,mongod) %dir %{_var}/log/mongodb
+%attr(0640,mongod,mongod) %config(noreplace) %verify(not md5 size mtime) %{_var}/log/mongodb/mongod.log
 
