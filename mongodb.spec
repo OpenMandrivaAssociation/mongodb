@@ -20,6 +20,7 @@ BuildRequires: pkgconfig(yaml-cpp)
 BuildRequires: pkgconfig(mozjs185)
 BuildRequires: pcap-devel
 BuildRequires: scons
+BuildRequires: valgrind-devel
 
 %description
 Mongo (from "huMONGOus") is a schema-free document-oriented database.
@@ -71,6 +72,7 @@ export CXX=%{__cxx}
 	--use-system-snappy \
 	--js-engine=mozjs \
 	--server-js=on \
+	--use-system-valgrind \
 	--disable-warnings-as-errors 
 
 %install
@@ -90,6 +92,7 @@ export CXX=%{__cxx}
 	--use-system-snappy \
 	--js-engine=mozjs \
 	--server-js=on \
+	--use-system-valgrind \
 	--disable-warnings-as-errors install
 
 mkdir -p %{buildroot}%{_mandir}/man1/
