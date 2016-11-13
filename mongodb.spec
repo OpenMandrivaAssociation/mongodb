@@ -92,9 +92,6 @@ mkdir -p %{buildroot}%{_mandir}/man1
 cp debian/*.1 %{buildroot}%{_mandir}/man1/
 mkdir -p %{buildroot}%{_unitdir}
 cp %{SOURCE1} %{buildroot}%{_unitdir}/mongod.service
-mkdir -p %{buildroot}%{_sysconfdir}/rc.d/init.d
-cp rpm/init.d-mongod %{buildroot}%{_sysconfdir}/rc.d/init.d/mongod
-chmod a+x %{buildroot}%{_sysconfdir}/rc.d/init.d/mongod
 mkdir -p %{buildroot}%{_sysconfdir}
 cp rpm/mongod.conf %{buildroot}%{_sysconfdir}/mongod.conf
 mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
@@ -148,7 +145,6 @@ rm -f %{buildroot}/usr/lib/libmongoclient.a
 %{_mandir}/man1/mongos.1*
 %{_tmpfilesdir}/%{name}-server.conf
 %{_unitdir}/mongod.service
-%{_sysconfdir}/rc.d/init.d/mongod
 %{_sysconfdir}/sysconfig/mongod
 %attr(0755,mongod,mongod) %dir %{_var}/lib/mongo
 %attr(0755,mongod,mongod) %dir %{_var}/log/mongodb
