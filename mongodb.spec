@@ -137,7 +137,7 @@ EOF
 %{_mandir}/man1/mongos.1*
 %{_tmpfilesdir}/%{name}-server.conf
 %{_unitdir}/mongod.service
-%{_sysconfdir}/sysconfig/mongod
+%config(noreplace) %{_sysconfdir}/sysconfig/mongod
 %attr(0755,mongod,mongod) %dir %{_var}/lib/mongo
 %attr(0750,mongod,mongod) %dir %{_var}/log/mongodb
 %attr(0640,mongod,mongod) %ghost %{_var}/log/mongodb/mongod.log
