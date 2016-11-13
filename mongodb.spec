@@ -1,5 +1,3 @@
-%define debug_package %nil
-
 Name:    mongodb
 Version: 3.2.10
 Release: 1
