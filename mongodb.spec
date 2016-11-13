@@ -69,6 +69,7 @@ export CXX=%{__cxx}
 	--use-system-boost \
 	--use-system-zlib \
 	--ssl \
+	--mmapv1 \
 	--use-system-yaml \
 	--use-system-snappy \
 	--js-engine=mozjs \
@@ -90,6 +91,7 @@ export CXX=%{__cxx}
 	--use-system-boost \
 	--use-system-zlib \
 	--ssl \
+	--mmapv1 \
 	--use-system-yaml \
 	--use-system-snappy \
 	--js-engine=mozjs \
