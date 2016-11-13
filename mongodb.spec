@@ -17,6 +17,7 @@ BuildRequires: snappy-devel
 BuildRequires: pkgconfig(openssl)
 BuildRequires: pkgconfig(libpcre)
 BuildRequires: pkgconfig(yaml-cpp)
+BuildRequires: pkgconfig(mozjs185)
 BuildRequires: pcap-devel
 BuildRequires: scons
 
@@ -68,6 +69,8 @@ export CXX=%{__cxx}
 	--ssl \
 	--use-system-yaml \
 	--use-system-snappy \
+	--js-engine=mozjs \
+	--server-js=on \
 	--disable-warnings-as-errors 
 
 %install
@@ -82,8 +85,11 @@ export CXX=%{__cxx}
 	CC=%{__cc} CXX=%{__cxx} \
 	--use-system-boost \
 	--use-system-zlib \
+	--ssl \
 	--use-system-yaml \
 	--use-system-snappy \
+	--js-engine=mozjs \
+	--server-js=on \
 	--disable-warnings-as-errors install
 
 mkdir -p %{buildroot}%{_mandir}/man1/
