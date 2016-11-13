@@ -1,5 +1,3 @@
-%define debug_package %nil
-
 Name:    mongodb
 Version: 3.2.10
 Release: 1
@@ -19,8 +17,11 @@ BuildRequires: snappy-devel
 BuildRequires: pkgconfig(openssl)
 BuildRequires: pkgconfig(libpcre)
 BuildRequires: pkgconfig(yaml-cpp)
+BuildRequires: pkgconfig(mozjs185)
+BuildRequires: pkgconfig(libtcmalloc)
 BuildRequires: pcap-devel
 BuildRequires: scons
+BuildRequires: valgrind-devel
 
 %description
 Mongo (from "huMONGOus") is a schema-free document-oriented database.
@@ -68,8 +69,13 @@ export CXX=%{__cxx}
 	--use-system-boost \
 	--use-system-zlib \
 	--ssl \
+	--mmapv1 \
 	--use-system-yaml \
 	--use-system-snappy \
+	--js-engine=mozjs \
+	--server-js=on \
+	--use-system-valgrind \
+	--use-system-tcmalloc \
 	--disable-warnings-as-errors 
 
 %install
@@ -84,24 +90,23 @@ export CXX=%{__cxx}
 	CC=%{__cc} CXX=%{__cxx} \
 	--use-system-boost \
 	--use-system-zlib \
+	--ssl \
+	--mmapv1 \
 	--use-system-yaml \
 	--use-system-snappy \
+	--js-engine=mozjs \
+	--server-js=on \
+	--use-system-valgrind \
+	--use-system-tcmalloc \
 	--disable-warnings-as-errors install
 
-mkdir -p %{buildroot}%{_mandir}/man1
+mkdir -p %{buildroot}%{_mandir}/man1/
 cp debian/*.1 %{buildroot}%{_mandir}/man1/
-mkdir -p %{buildroot}%{_unitdir}
-cp %{SOURCE1} %{buildroot}%{_unitdir}/mongod.service
-mkdir -p %{buildroot}%{_sysconfdir}/rc.d/init.d
-cp rpm/init.d-mongod %{buildroot}%{_sysconfdir}/rc.d/init.d/mongod
-chmod a+x %{buildroot}%{_sysconfdir}/rc.d/init.d/mongod
-mkdir -p %{buildroot}%{_sysconfdir}
-cp rpm/mongod.conf %{buildroot}%{_sysconfdir}/mongod.conf
-mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
-cp rpm/mongod.sysconfig %{buildroot}%{_sysconfdir}/sysconfig/mongod
-mkdir -p %{buildroot}%{_var}/lib/mongo
-mkdir -p %{buildroot}%{_var}/log/mongodb
-touch %{buildroot}%{_var}/log/mongodb/mongod.log
+install -m644 %{SOURCE1} -D %{buildroot}%{_unitdir}/mongod.service
+install -m644 rpm/mongod.conf -D %{buildroot}%{_sysconfdir}/mongod.conf
+install -m644 rpm/mongod.sysconfig -D %{buildroot}%{_sysconfdir}/sysconfig/mongod
+mkdir -p %{buildroot}%{_sharedstatedir}/mongo
+mkdir -p %{buildroot}%{_logdir}/mongodb
 
 cat >> %{buildroot}%{_sysconfdir}/sysconfig/mongod << EOF
 OPTIONS="-f /etc/mongod.conf"
@@ -111,13 +116,11 @@ EOF
 # when /var/run will be on tmpfs)
 mkdir -p %{buildroot}%{_tmpfilesdir}
 cat > %{buildroot}%{_tmpfilesdir}/%{name}-server.conf << EOF
-d %{_var}/run/mongo 0755 mongod mongod -
+d %{_varrun}/mongo 0755 mongod mongod -
 EOF
 
-rm -f %{buildroot}/usr/lib/libmongoclient.a
-
 %pre server
-%_pre_useradd mongod /var/lib/mongo /bin/false
+%_pre_useradd mongod /var/lib/mongo /bin/nologin
 
 %postun server
 %_postun_userdel mongod
@@ -148,9 +151,8 @@ rm -f %{buildroot}/usr/lib/libmongoclient.a
 %{_mandir}/man1/mongos.1*
 %{_tmpfilesdir}/%{name}-server.conf
 %{_unitdir}/mongod.service
-%{_sysconfdir}/rc.d/init.d/mongod
-%{_sysconfdir}/sysconfig/mongod
-%attr(0755,mongod,mongod) %dir %{_var}/lib/mongo
-%attr(0755,mongod,mongod) %dir %{_var}/log/mongodb
-%attr(0640,mongod,mongod) %config(noreplace) %verify(not md5 size mtime) %{_var}/log/mongodb/mongod.log
+%config(noreplace) %{_sysconfdir}/sysconfig/mongod
+%attr(0755,mongod,mongod) %dir %{_sharedstatedir}/mongo
+%attr(0750,mongod,mongod) %dir %{_logdir}/mongodb
+%attr(0640,mongod,mongod) %ghost %{_logdir}/mongodb/mongod.log
 
