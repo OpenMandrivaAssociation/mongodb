@@ -91,8 +91,8 @@ cp debian/*.1 %{buildroot}%{_mandir}/man1/
 install -m644 %{SOURCE1} -D %{buildroot}%{_unitdir}/mongod.service
 install -m644 rpm/mongod.conf -D %{buildroot}%{_sysconfdir}/mongod.conf
 install -m644 rpm/mongod.sysconfig -D %{buildroot}%{_sysconfdir}/sysconfig/mongod
-mkdir -p %{buildroot}%{_var}/lib/mongo
-mkdir -p %{buildroot}%{_var}/log/mongodb
+mkdir -p %{buildroot}%{_sharedstatedir}/mongo
+mkdir -p %{buildroot}%{_logdir}/mongodb
 
 cat >> %{buildroot}%{_sysconfdir}/sysconfig/mongod << EOF
 OPTIONS="-f /etc/mongod.conf"
@@ -102,7 +102,7 @@ EOF
 # when /var/run will be on tmpfs)
 mkdir -p %{buildroot}%{_tmpfilesdir}
 cat > %{buildroot}%{_tmpfilesdir}/%{name}-server.conf << EOF
-d %{_var}/run/mongo 0755 mongod mongod -
+d %{_varrundir}/mongo 0755 mongod mongod -
 EOF
 
 %pre server
@@ -138,7 +138,7 @@ EOF
 %{_tmpfilesdir}/%{name}-server.conf
 %{_unitdir}/mongod.service
 %config(noreplace) %{_sysconfdir}/sysconfig/mongod
-%attr(0755,mongod,mongod) %dir %{_var}/lib/mongo
-%attr(0750,mongod,mongod) %dir %{_var}/log/mongodb
-%attr(0640,mongod,mongod) %ghost %{_var}/log/mongodb/mongod.log
+%attr(0755,mongod,mongod) %dir %{_sharedstatedir}/mongo
+%attr(0750,mongod,mongod) %dir %{_logdir}/mongodb
+%attr(0640,mongod,mongod) %ghost %{_logdir}/mongodb/mongod.log
 
