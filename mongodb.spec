@@ -1,7 +1,7 @@
 %define debug_package %nil
 
 Name:    mongodb
-Version: 3.2.10
+Version: 3.4.10
 Release: 1
 Summary: MongoDB client shell and tools
 License: AGPL 3.0
@@ -9,8 +9,8 @@ URL: http://www.mongodb.org
 Group: Databases
 Source0: http://downloads.mongodb.org/src/%{name}-src-r%{version}.tar.gz
 Source1: mongod.service
-Patch0:  mongodb-3.2.4-boost-1.60.patch
 Patch1:	 system-libs.patch
+Patch2:	 system-icu.patch
 BuildRequires: readline-devel
 BuildRequires: boost-devel
 BuildRequires: pcre-devel
@@ -70,7 +70,7 @@ export CXX=%{__cxx}
 	--ssl \
 	--use-system-yaml \
 	--use-system-snappy \
-	--disable-warnings-as-errors 
+	--disable-warnings-as-errors
 
 %install
 %serverbuild
@@ -162,4 +162,3 @@ chown mongod.mongod %{_var}/run/mongo
 %attr(0755,mongod,mongod) %dir %{_var}/lib/mongo
 %attr(0755,mongod,mongod) %dir %{_var}/log/mongo
 %attr(0640,mongod,mongod) %config(noreplace) %verify(not md5 size mtime) %{_var}/log/mongo/mongod.log
-

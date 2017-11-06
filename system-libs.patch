@@ -1,8 +1,17 @@
 diff --git a/SConstruct b/SConstruct
-index 4e03bdf..85c7a92 100644
+index f4a01cc..8dfd3e6 100644
 --- a/SConstruct
 +++ b/SConstruct
-@@ -365,6 +365,11 @@ add_option('use-system-asio',
+@@ -203,7 +203,7 @@ add_option('wiredtiger',
+     type='choice',
+ )
+ 
+-js_engine_choices = ['mozjs', 'none']
++js_engine_choices = ['mozjs', 'none', 'mozjs-45']
+ add_option('js-engine',
+     choices=js_engine_choices,
+     default=js_engine_choices[0],
+@@ -369,6 +369,11 @@ add_option('use-system-icu',
      nargs=0,
  )
  
@@ -14,12 +23,16 @@ index 4e03bdf..85c7a92 100644
  add_option('use-system-intel_decimal128',
      help='use system version of intel decimal128',
      nargs=0,
-@@ -2419,11 +2424,17 @@ def doConfigure(myenv):
-     if use_system_version_of_library("intel_decimal128"):
-         conf.FindSysLibDep("intel_decimal128", ["bid"])
+@@ -2706,11 +2711,21 @@ def doConfigure(myenv):
+         conf.env['LIBDEPS_ICUI18N_SYSLIBDEP'] = 'icui18n'
+         conf.env['LIBDEPS_ICUUC_SYSLIBDEP'] = 'icuuc'
  
 +    if use_system_version_of_library("mozjs"):
-+        conf.FindSysLibDep("mozjs", ["mozjs-38"])
++        conf.FindSysLibDep("mozjs", [jsEngine])
++
++    if use_system_version_of_library("icu"):
++        conf.FindSysLibDep("icui18n", ["icui18n"])
++        conf.FindSysLibDep("icuuc", ["icuuc"])
 +
      if wiredtiger and use_system_version_of_library("wiredtiger"):
          if not conf.CheckCXXHeader( "wiredtiger.h" ):
@@ -32,24 +45,28 @@ index 4e03bdf..85c7a92 100644
      conf.env.Append(
          CPPDEFINES=[
              ("BOOST_THREAD_VERSION", "4"),
-diff --git a/src/mongo/executor/connection_pool_asio.h b/src/mongo/executor/connection_pool_asio.h
-index 4cdcd14..aabeb29 100644
---- a/src/mongo/executor/connection_pool_asio.h
-+++ b/src/mongo/executor/connection_pool_asio.h
-@@ -35,6 +35,8 @@
- #include "mongo/executor/network_interface_asio.h"
- #include "mongo/stdx/mutex.h"
- 
-+#include <asio/steady_timer.hpp>
-+
- namespace mongo {
- namespace executor {
- namespace connection_pool_asio {
+@@ -2938,7 +2953,7 @@ Export("env")
+ Export("get_option")
+ Export("has_option use_system_version_of_library")
+ Export("serverJs")
+-Export("usemozjs")
++Export("usemozjs jsEngine")
+ Export('module_sconscripts')
+ Export("debugBuild optBuild")
+ Export("wiredtiger")
 diff --git a/src/third_party/SConscript b/src/third_party/SConscript
-index 5ff1ace..dd3b73f 100644
+index 3a82039..fded563 100644
 --- a/src/third_party/SConscript
 +++ b/src/third_party/SConscript
-@@ -41,13 +41,18 @@ if not use_system_version_of_library('zlib'):
+@@ -1,6 +1,6 @@
+ # -*- mode: python -*-
+ 
+-Import("env use_system_version_of_library usemozjs get_option")
++Import("env use_system_version_of_library usemozjs jsEngine get_option")
+ Import("wiredtiger")
+ 
+ boostSuffix = "-1.60.0"
+@@ -45,13 +45,15 @@ if not use_system_version_of_library('zlib'):
  # TODO: figure out if we want to offer system versions of mozjs.  Mozilla
  # hasn't offered a source tarball since 24, but in theory they could.
  #
@@ -63,14 +80,11 @@ index 5ff1ace..dd3b73f 100644
          ]))
 +else:
 +    thirdPartyIncludePathList.append(
-+        ('mozjs', ['#/src/third_party/mozjs' + mozjsSuffix + '/mongo_sources', ]))
-+    if use_system_version_of_library("mozjs"):
-+        thirdPartyIncludePathList.append(
-+            ('mozjs', ['/usr/include/mozjs' + mozjsSuffix, ]))
++        ('mozjs', ['#/src/third_party/mozjs' + mozjsSuffix + '/mongo_sources', '/usr/include/'+jsEngine, ]))
  
  if not use_system_version_of_library('stemmer'):
      thirdPartyIncludePathList.append(
-@@ -198,13 +203,20 @@ zlibEnv.Library(
+@@ -210,13 +212,20 @@ zlibEnv.Library(
      ])
  
  if usemozjs:
@@ -98,15 +112,3 @@ index 5ff1ace..dd3b73f 100644
  
      mozjsEnv.Library(
          target="shim_mozjs",
-@@ -316,10 +328,7 @@ if wiredtiger:
-         ])
- 
- if use_system_version_of_library("asio"):
--    asioEnv = env.Clone(
--        SYSLIBDEPS=[
--            env['LIBDEPS_ASIO_SYSLIBDEP'],
--        ])
-+    asioEnv = env.Clone()
- else:
-     asioEnv = env.Clone()
-     asioEnv.InjectThirdPartyIncludePaths(libraries=['asio'])
