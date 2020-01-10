@@ -49,7 +49,7 @@ softwware, default configuration files, and init.d scripts.
 
 %prep
 %setup -qn %{name}-src-r%{version}
-%apply_patches
+%autopatch -p1
 # disable propagation of $TERM env var into the Scons build system
 sed -i -r "s|(for key in \('HOME'), 'TERM'(\):)|\1\2|" SConstruct
 sed -i -e "s/\[\"yaml\"\]/\[\"yaml-cpp\"\]/" SConstruct
