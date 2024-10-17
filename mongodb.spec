@@ -3,7 +3,7 @@ Version: 3.2.10
 Release: 1
 Summary: MongoDB client shell and tools
 License: AGPL 3.0
-URL: http://www.mongodb.org
+URL: https://www.mongodb.org
 Group: Databases
 Source0: http://downloads.mongodb.org/src/%{name}-src-r%{version}.tar.gz
 Source1: mongod.service
